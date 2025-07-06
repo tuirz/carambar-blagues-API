@@ -1,0 +1,12 @@
+# Dépendances
+node_modules/
+*.log
+
+# Variables d'environnement
+.env
+
+# Base de données
+*.sqlite
+
+# IDE
+.DS_Store
