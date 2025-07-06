@@ -2,6 +2,10 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
+const { sequelize } = require('./config/database');
+const blagueRoutes = require('./routes/blagueRoutes');
+const seedBlagues = require('./seeders/blaguesSeeder');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -13,7 +17,11 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.json({
     message: 'API Carambar Blagues',
-    version: '1.0.0'
+    version: '1.0.0',
+    endpoints: {
+      blagues: '/api/v1/blagues',
+      random: '/api/v1/blagues/random'
+    }
   });
 });
 
@@ -22,8 +30,23 @@ app.get('/health', (req, res) => {
   res.json({ status: 'OK' });
 });
 
-app.listen(PORT, () => {
+// Routes API
+app.use('/api/v1/blagues', blagueRoutes);
+
+// Initialisation de la base de données
+async function initDatabase() {
+  try {
+    await sequelize.sync();
+    console.log('📄 Base de données synchronisée');
+    await seedBlagues();
+  } catch (error) {
+    console.error('❌ Erreur initialisation BDD:', error);
+  }
+}
+
+app.listen(PORT, async () => {
   console.log(`🚀 Serveur démarré sur le port ${PORT}`);
+  await initDatabase();
 });
 
 module.exports = app;
