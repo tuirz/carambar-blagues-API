@@ -9,8 +9,8 @@ const options = {
       version: '1.0.0',
       description: 'API REST pour les blagues Carambar & co - Projet entretien technique CDA',
       contact: {
-        name: 'Luigi Soufar',
-        email: 'contact@example.com'
+        name: 'Luigi SOUFAR',
+        email: 'tuirzz@icloud.com'
       }
     },
     servers: [
