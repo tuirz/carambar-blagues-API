@@ -5,6 +5,7 @@ require('dotenv').config();
 const { sequelize } = require('./config/database');
 const blagueRoutes = require('./routes/blagueRoutes');
 const seedBlagues = require('./seeders/blaguesSeeder');
+const { swaggerUi, specs } = require('./config/swagger');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,10 +21,14 @@ app.get('/', (req, res) => {
     version: '1.0.0',
     endpoints: {
       blagues: '/api/v1/blagues',
-      random: '/api/v1/blagues/random'
+      random: '/api/v1/blagues/random',
+      documentation: '/api-docs'
     }
   });
 });
+
+// Documentation Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Health check
 app.get('/health', (req, res) => {
